@@ -14,7 +14,7 @@ function Banner() {
 
     useEffect(() => {
         let ticker = setInterval(() => {
-            ticker();
+            tick();
         }, delta);
 
         return () => { clearInterval(ticker) };
@@ -26,6 +26,19 @@ function Banner() {
         let updatedText = isDeleting ? fullText.substring[0, text.length - 1] : fullText.substring[0, text.length + 1];
 
         setText(updatedText);
+
+        if (isDeleting) {
+            setDelta(prevDelta => prevDelta / 2);
+        }
+
+        if (!isDeleting && updatedText === fullText) {
+            setIsDeleting(true);
+            setDelta(period);
+        } else if (isDeleting && updatedText === "") {
+            setIsDeleting(false);
+            setLoopNum(loopNum + 1);
+            setDelta(500);
+        }
     }
 
   return (
@@ -34,7 +47,7 @@ function Banner() {
             <Row className="align-items=center">
                 <Col xs={12} md={6} xl={7}>
                     <span className="tagline">Welcome to my Portfolio</span>
-                    <h1>{"Hi I'm webdecoded"}<span className='wrap'>web developer</span></h1>
+                    <h1>{"Hi I'm webdecoded "}<span className='wrap'>{text}</span></h1>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor bibendum volutpat. Suspendisse dignissim metus vel velit vehicula, vel fermentum metus laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sagittis at velit id tincidunt. Vestibulum tincidunt ante et tellus suscipit mollis. Duis volutpat diam massa, a volutpat erat luctus sed. Quisque laoreet vehicula aliquam. Aliquam id ligula sem. Proin tristique dolor eget diam finibus imperdiet. Nunc in lacus elementum, maximus lectus in, fringilla nibh. Nullam pretium lacinia aliquam. Praesent purus nibh, dignissim quis est placerat, pretium venenatis ex. In ultrices ex a tortor dictum sagittis. Sed vel ipsum sapien.</p>
                     <button onClick={() => console.log('connect')}>Let's connect <ArrowRightCircle size={25} /></button>
                 </Col>
